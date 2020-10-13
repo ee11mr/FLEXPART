@@ -1,0 +1,133 @@
+#!/bin/bash
+#SBATCH --job-name=CV_2020
+#SBATCH --ntasks=1
+#SBATCH --mem=5gb
+#SBATCH --time=00:45:00
+#SBATCH --output=LOGS/array_job_%A_%a.log
+#SBATCH --array=977-1096
+
+YEAR=2020
+echo Beginning FLEXPART v10.4 array job for year $YEAR
+echo Array job number $SLURM_ARRAY_TASK_ID of 1460
+
+YEAR1=$(( $YEAR + 1 ))
+YEAR_1=$(( $YEAR - 1 ))
+if [ ! -d $YEAR ]; then
+    mkdir $YEAR
+    mkdir $YEAR'/netcdfs'
+    mkdir $YEAR'/plots'
+    python ./python_scripts/mkAVAIL.py -s $YEAR_1'01' -e $YEAR1'01' -m GFS -p  /users/mjr583/scratch/flexpart/preprocess/flex_extract/05x05/ -a ./$YEAR/
+    cd $YEAR
+else
+    sleep 10s
+    cd $YEAR
+fi
+
+if [ ! -f ./array_dates ]; then
+    python ../python_scripts/writedates.py $YEAR
+else
+    sleep 10s
+fi
+
+dates_file_path='/users/mjr583/scratch/flexpart/cvao/05x05/'$YEAR'/array_dates'
+DATE_STRING=$(sed -n "${SLURM_ARRAY_TASK_ID}p" ${dates_file_path})
+echo $DATE_STRING
+echo Get name and extract information
+JOBEND=${DATE_STRING::12}
+JOB=${DATE_STRING:13}
+echo $JOB
+echo $JOBEND
+
+echo Create necessary directories and copy files over
+echo flex_$JOB
+if [ ! -d flex_$JOB ]; then
+  mkdir flex_$JOB
+  mkdir 'flex_'$JOB'/src'
+  mkdir 'flex_'$JOB'/options'
+  mkdir 'flex_'$JOB'/output'
+fi 
+
+cp ../../pathnames flex_$JOB/
+cp AVAILABLE flex_$JOB/
+cp -r ../../options/* flex_$JOB/options/
+cp ../../src/FLEXPART flex_$JOB/src/
+
+cd flex_$JOB
+## COMMAND FILE
+DIR=-1
+STARTDATE=${JOBEND::8}
+ENDDATE=${JOB::8}
+STARTTIME=${JOBEND:8}'00'
+ENDTIME=${JOB:8}'00'
+OUTTYPE=1 ## 1=mass, 2=pptv, 3=1&2, 4=plume, 5=1&5 (+8 for ncdf)
+OUTTIME=10800
+
+echo CHECK HERE
+echo $STARTDATE $STARTTIME
+echo $ENDDATE $ENDTIME
+
+## RELEASES FILE
+RELSTART=$ENDDATE
+RELEND=$ENDDATE
+RELTIMESTART=$ENDTIME
+RELTIMEEND=$ENDTIME
+LLLON=-24.52
+LLLAT=16.51
+URLON=$LLLON
+URLAT=$LLLAT
+HEIGHT=0.
+NAME='"CV back trajectory"'
+NPARTICLES=1000
+
+## OUTGRID FILE
+OLON=-179.00
+OLAT=-90.00
+NX=360
+NY=180
+DX=1.00
+DY=1.00
+
+echo Edit pathnames file
+sed -i "s/.\/preprocess\/flex_extract\/work/\/users\/mjr583\/scratch\/flexpart\/preprocess\/flex_extract\/05x05/" pathnames
+## Set variables in COMMAND and RELEASES files
+sed -i "s/LDIRECT=.*/LDIRECT=              $DIR,/" ./options/COMMAND
+sed -i "s/IBDATE=.*/IBDATE=         $STARTDATE,/" ./options/COMMAND
+sed -i "s/IBTIME=.*/IBTIME=           $STARTTIME,/" ./options/COMMAND
+sed -i "s/IEDATE=.*/IEDATE=         $ENDDATE,/" ./options/COMMAND
+sed -i "s/IETIME=.*/IETIME=           $ENDTIME,/" ./options/COMMAND
+sed -i "s/IOUT=.*/IOUT=                 $OUTTYPE,/" ./options/COMMAND
+sed -i "s/LOUTSTEP=.*/LOUTSTEP=           $OUTTIME,/" ./options/COMMAND
+sed -i "s/LOUTAVER=.*/LOUTAVER=           $OUTTIME,/" ./options/COMMAND
+
+sed -i "s/IDATE1.*/IDATE1  =       $RELSTART,/" ./options/RELEASES
+sed -i "s/ITIME1.*/ITIME1  =         $RELTIMESTART,/" ./options/RELEASES
+sed -i "s/IDATE2.*/IDATE2  =       $RELEND,/" ./options/RELEASES
+sed -i "s/ITIME2.*/ITIME2  =         $RELTIMEEND,/" ./options/RELEASES
+sed -i "s/LON1.*/LON1    =         $LLLON,/" ./options/RELEASES
+sed -i "s/LON2.*/LON2    =         $URLON,/" ./options/RELEASES
+sed -i "s/LAT1.*/LAT1    =          $LLLAT,/" ./options/RELEASES
+sed -i "s/LAT2.*/LAT2    =          $URLAT,/" ./options/RELEASES
+sed -i "s/Z1.*/Z1      =             $HEIGHT,/" ./options/RELEASES
+sed -i "s/Z2.*/Z2      =             $HEIGHT,/" ./options/RELEASES
+sed -i "s/COMMENT.*/COMMENT =  $NAME,/" ./options/RELEASES
+sed -i "s/PARTS.*/PARTS   =           $NPARTICLES,/" ./options/RELEASES
+
+sed -i "s/OUTLON0=.*/OUTLON0=   $OLON,/" ./options/OUTGRID
+sed -i "s/OUTLAT0=.*/OUTLAT0=    $OLAT,/" ./options/OUTGRID
+sed -i "s/NUMXGRID=.*/NUMXGRID=      $NX,/" ./options/OUTGRID
+sed -i "s/NUMYGRID=.*/NUMYGRID=      $NY,/" ./options/OUTGRID
+sed -i "s/DXOUT=.*/DXOUT=        $DX,/" ./options/OUTGRID
+sed -i "s/DYOUT=.*/DYOUT=        $DY,/" ./options/OUTGRID
+
+echo Load ecCodes and run FLEXPART job
+module load tools/ecCodes/2.7.3-foss-2018b
+./src/FLEXPART
+rm output/grid_time*
+
+echo Write all output as netcdfs
+python ../../python_scripts/convert_to_netcdf.py $YEAR $SLURM_ARRAY_TASK_ID
+
+echo Make quick plots for every trajectory
+python ../../python_scripts/plot.py $YEAR $SLURM_ARRAY_TASK_ID
+
+echo all done
