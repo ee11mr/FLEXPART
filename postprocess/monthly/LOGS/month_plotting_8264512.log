@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/var/spool/slurmdspool/job8264512/slurm_script", line 54, in <module>
+    lats=fh.variables['Latitude'][:]
+KeyError: 'Latitude'
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 8264512
+Cluster: viking
+User/Group: mjr583/clusterusers
+State: RUNNING
+Cores: 1
+CPU Utilized: 00:00:06
+CPU Efficiency: 4.80% of 00:02:05 core-walltime
+Job Wall-clock time: 00:02:05
+Memory Utilized: 1.22 GB
+Memory Efficiency: 15.25% of 8.00 GB
+WARNING: Efficiency statistics may be misleading for RUNNING jobs.
+ Requested wall clock time: 00:30:00
+    Actual wall clock time: 00:02:05
+Wall clock time efficiency: 6.9%
+           Job queued time: 00:00:28

@@ -1,0 +1,22 @@
+slurmstepd: error: Detected 1 oom-kill event(s) in step 8869675.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: get_exit_code task 0 died by signal
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 8869675
+Cluster: viking
+User/Group: mjr583/clusterusers
+State: RUNNING
+Cores: 1
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:07:44 core-walltime
+Job Wall-clock time: 00:07:44
+Memory Utilized: 0.00 MB (estimated maximum)
+Memory Efficiency: 0.00% of 8.00 GB (8.00 GB/node)
+WARNING: Efficiency statistics may be misleading for RUNNING jobs.
+ Requested wall clock time: 00:30:00
+    Actual wall clock time: 00:07:43
+Wall clock time efficiency: 25.7%
+           Job queued time: 00:00:13

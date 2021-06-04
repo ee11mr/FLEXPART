@@ -1,0 +1,20 @@
+slurmstepd: error: *** JOB 8252854 ON node137 CANCELLED AT 2020-07-10T16:47:01 ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 8252854
+Cluster: viking
+User/Group: mjr583/clusterusers
+State: CANCELLED (exit code 0)
+Cores: 1
+CPU Utilized: 00:00:08
+CPU Efficiency: 15.69% of 00:00:51 core-walltime
+Job Wall-clock time: 00:00:51
+Memory Utilized: 1.20 GB
+Memory Efficiency: 15.00% of 8.00 GB
+ Requested wall clock time: 00:30:00
+    Actual wall clock time: 00:00:51
+Wall clock time efficiency: 2.8%
+           Job queued time: 00:00:00

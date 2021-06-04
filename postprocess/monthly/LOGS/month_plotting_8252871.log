@@ -1,0 +1,20 @@
+slurmstepd: error: *** JOB 8252871 ON node001 CANCELLED AT 2020-07-10T16:48:41 ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 8252871
+Cluster: viking
+User/Group: mjr583/clusterusers
+State: CANCELLED (exit code 0)
+Cores: 1
+CPU Utilized: 00:00:06
+CPU Efficiency: 12.77% of 00:00:47 core-walltime
+Job Wall-clock time: 00:00:47
+Memory Utilized: 1.42 GB
+Memory Efficiency: 17.71% of 8.00 GB
+ Requested wall clock time: 00:30:00
+    Actual wall clock time: 00:00:47
+Wall clock time efficiency: 2.6%
+           Job queued time: 00:00:10

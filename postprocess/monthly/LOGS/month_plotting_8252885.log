@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/var/spool/slurmdspool/job8252885/slurm_script", line 106, in <module>
+    m = Basemap(projection='cyl', llcrnrlat=llat, urcrnrlat=ulat,llcrnrlon=llon, urcrnrlon=ulon, resolution='c', area_thresh=1000.,ax=ax[mon])
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/mpl_toolkits/basemap/__init__.py", line 702, in __init__
+    urcrnrlon = _validated_or_none(urcrnrlon, 'urcrnrlon', -360, 720)
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/mpl_toolkits/basemap/__init__.py", line 522, in _validated_or_none
+    return _validated_ll(param, name, minval, maxval)
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/mpl_toolkits/basemap/__init__.py", line 515, in _validated_ll
+    (name, minval, maxval))
+ValueError: urcrnrlon must be between -360.000000 and 720.000000 degrees
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 8252885
+Cluster: viking
+User/Group: mjr583/clusterusers
+State: FAILED (exit code 1)
+Cores: 1
+CPU Utilized: 00:01:57
+CPU Efficiency: 87.31% of 00:02:14 core-walltime
+Job Wall-clock time: 00:02:14
+Memory Utilized: 3.87 GB
+Memory Efficiency: 48.38% of 8.00 GB
+ Requested wall clock time: 00:30:00
+    Actual wall clock time: 00:02:14
+Wall clock time efficiency: 7.4%
+           Job queued time: 00:00:01

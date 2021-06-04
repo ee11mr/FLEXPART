@@ -1,0 +1,39 @@
+/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/matplotlib/colors.py:1110: RuntimeWarning: invalid value encountered in less_equal
+  mask |= resdat <= 0
+Traceback (most recent call last):
+  File "/var/spool/slurmdspool/job8252820/slurm_script", line 120, in <module>
+    plt.savefig(path+'/plots/'+year+'_cvao.png')
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/matplotlib/pyplot.py", line 722, in savefig
+    res = fig.savefig(*args, **kwargs)
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/matplotlib/figure.py", line 2180, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/matplotlib/backend_bases.py", line 2089, in print_figure
+    **kwargs)
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/matplotlib/backends/backend_agg.py", line 530, in print_png
+    cbook.open_file_cm(filename_or_obj, "wb") as fh:
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/contextlib.py", line 112, in __enter__
+    return next(self.gen)
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/matplotlib/cbook/__init__.py", line 447, in open_file_cm
+    fh, opened = to_filehandle(path_or_file, mode, True, encoding)
+  File "/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/matplotlib/cbook/__init__.py", line 432, in to_filehandle
+    fh = open(fname, flag, encoding=encoding)
+FileNotFoundError: [Errno 2] No such file or directory: '/users/mjr583/scratch/flexpart/cvao/05x05//plots/2019_cvao.png'
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 8252820
+Cluster: viking
+User/Group: mjr583/clusterusers
+State: FAILED (exit code 1)
+Cores: 1
+CPU Utilized: 00:01:13
+CPU Efficiency: 41.48% of 00:02:56 core-walltime
+Job Wall-clock time: 00:02:56
+Memory Utilized: 3.87 GB
+Memory Efficiency: 48.37% of 8.00 GB
+ Requested wall clock time: 00:30:00
+    Actual wall clock time: 00:02:56
+Wall clock time efficiency: 9.8%
+           Job queued time: 00:00:12

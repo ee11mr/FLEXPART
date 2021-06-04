@@ -1,0 +1,22 @@
+/users/mjr583/scratch/python_environments/envs/my_env/lib/python3.7/site-packages/matplotlib/colors.py:1110: RuntimeWarning: invalid value encountered in less_equal
+  mask |= resdat <= 0
+Plot saved
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 8862811
+Cluster: viking
+User/Group: mjr583/clusterusers
+State: COMPLETED (exit code 0)
+Cores: 1
+CPU Utilized: 00:01:25
+CPU Efficiency: 42.50% of 00:03:20 core-walltime
+Job Wall-clock time: 00:03:20
+Memory Utilized: 3.87 GB
+Memory Efficiency: 48.37% of 8.00 GB
+ Requested wall clock time: 00:30:00
+    Actual wall clock time: 00:03:20
+Wall clock time efficiency: 11.1%
+           Job queued time: 00:01:33
